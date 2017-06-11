@@ -1,16 +1,11 @@
-var port = process.env.PORT || 8080;
-var http = require('http')
-var io = require('socket.io')(http);
-var fs = require('fs');
+var port = 80;
+var app = require('express')();
+var server = require('http').Server(app)
+var io = require('socket.io')(server);
 
-var index = fs.readFileSync('public/index.html');
+server.listen(port);
 
-http.createServer(function (req, res) {
-
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end(index);
-
-}).listen(port);
+app.use(express.static('../web'));
 
 console.log('port: ' + port);
 io.on('connection', function(socket) {
